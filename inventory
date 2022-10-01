@@ -1,6 +1,13 @@
+[web_servers]
 #LAB DEBIAN 01
-172.16.128.2 apache_package=apache2 php_package=libapache2-mod-php
+172.16.128.2
 #LAB DEBIAN 02
-172.16.128.3 apache_package=apache2 php_package=libapache2-mod-php
+172.16.128.3
+
+[db_servers]
 #LAB DEBIAN 03
-172.16.128.4 apache_package=apache2 php_package=libapache2-mod-php
+172.16.128.4
+
+[file_servers]
+#LAB CENTOS 01
+172.16.128.5

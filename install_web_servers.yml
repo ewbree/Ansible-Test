@@ -1,0 +1,68 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Install updates (Debian)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Debian"
+
+  - name: Install updates (CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: Install Apache and PHP (Debian)
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Debian"
+
+  - name: Install Apache and PHP (CentOS)
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: Install MariaDB package (Debian)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Debian"
+
+  - name: Install MariaDB package (CentOS)
+    apt:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: Install samba package
+    package:
+      name: samba
+      state: latest
