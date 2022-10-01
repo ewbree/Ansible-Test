@@ -1,6 +1,6 @@
 #LAB DEBIAN 01
-172.16.128.2
+172.16.128.2 apache_package=apache2 php_package=libapache2-mod-php
 #LAB DEBIAN 02
-172.16.128.3
+172.16.128.3 apache_package=apache2 php_package=libapache2-mod-php
 #LAB DEBIAN 03
-172.16.128.4
+172.16.128.4 apache_package=apache2 php_package=libapache2-mod-php
