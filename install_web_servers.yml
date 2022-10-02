@@ -43,6 +43,23 @@
     when: ansible_distribution == "CentOS"
 
 
+  - name: Change e-mail address for the admin (CentOS)
+    tags: apache,httpd,files,centos
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.local
+    when: ansible_distribution == "CentOS"
+    register: httpdfile
+
+  - name: Restart httpd if file above indeed has changed (CentOS)
+    tags: apache,httpd,service,restart,centos
+    service:
+      name: httpd
+      state: restarted
+    when: httpdfile.changed
+
+
   - name: Copy default html file for the website
     tags: webroot,files,copy
     copy:
