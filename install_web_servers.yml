@@ -43,6 +43,16 @@
     when: ansible_distribution == "CentOS"
 
 
+  - name: Copy default html file for the website
+    tags: webroot,files,copy
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
 
 - hosts: db_servers
   become: true
