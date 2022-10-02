@@ -53,6 +53,23 @@
       mode: 0644
 
 
+  - name: Start Apache service (Debian)
+    tags: apache,apache2,service,start,debian
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Debian" 
+
+  - name: Start Apache service (CentOS)
+    tags: apache,httpd,service,start,centos
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+
 
 - hosts: db_servers
   become: true
