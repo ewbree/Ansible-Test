@@ -4,19 +4,29 @@
   become: true
   pre_tasks:
 
-  - name: Install updates (Debian)
+  - name: Update repo cache (Debian)
     tags: always
     apt:
-      upgrade: dist
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Debian"
 
-  - name: Install updates (CentOS)
+  - name: Update repo cache (CentOS)
     tags: always
     dnf:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "CentOS"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Add SSH key for tester
+    tags: always
+    authorized_key:
+      user: tester
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGo1TTBeqlGIaeZMNoVmISNNXZeoBrfApBA0gd/D/r/x ansible"
 
 
 
