@@ -1,0 +1,129 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Update repo cache (Debian)
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Debian"
+
+  - name: Update repo cache (CentOS)
+    tags: always
+    dnf:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "CentOS"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Add SSH key for tester
+    tags: always
+    authorized_key:
+      user: tester
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGo1TTBeqlGIaeZMNoVmISNNXZeoBrfApBA0gd/D/r/x ansible"
+
+
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: Install Apache and PHP (Debian)
+    tags: apache,apache2,debian
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Debian"
+
+  - name: Install Apache and PHP (CentOS)
+    tags: apache,httpd,centos
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+  - name: Change e-mail address for the admin (CentOS)
+    tags: apache,httpd,files,centos
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.local
+    when: ansible_distribution == "CentOS"
+    register: httpdfile
+
+  - name: Restart httpd if file above indeed has changed (CentOS)
+    tags: apache,httpd,service,restart,centos
+    service:
+      name: httpd
+      state: restarted
+    when: httpdfile.changed
+
+
+  - name: Copy default html file for the website
+    tags: webroot,files,copy
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
+  - name: Start Apache service (Debian)
+    tags: apache,apache2,service,start,debian
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Debian" 
+
+  - name: Start Apache service (CentOS)
+    tags: apache,httpd,service,start,centos
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: Install MariaDB package (Debian)
+    tags: db,mariadb,debian
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Debian"
+
+  - name: Install MariaDB package (CentOS)
+    tags: db,mariadb,centos
+    apt:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: Install samba package
+    tags: samba
+    package:
+      name: samba
+      state: latest
