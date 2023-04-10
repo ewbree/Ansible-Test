@@ -1,4 +1,3 @@
-l
 # Ansible-Test
 
 For mere ansible tests and studies on local VMs.
@@ -10,7 +9,7 @@ It'll come with the time though since network automation allows for it more.
 
 ### files:
 
-inventory = hostsn\n
+inventory = hosts<br>
 ansible.cfg = Ansible's configuration specifically to the working directory
 
 
