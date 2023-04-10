@@ -1,4 +1,0 @@
- - name: add ssh key for tester
-   authorized_key:
-     user: tester
-     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGo1TTBeqlGIaeZMNoVmISNNXZeoBrfApBA0gd/D/r/x ansible"
