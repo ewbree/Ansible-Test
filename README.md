@@ -10,8 +10,10 @@ It'll come with the time though since network automation allows for it more.
 
 ### files:
 
-inventory = hosts
+inventory = hostsn\n
 ansible.cfg = Ansible's configuration specifically to the working directory
+
+
 
 
 ## old_files:
