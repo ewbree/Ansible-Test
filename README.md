@@ -1,5 +1,8 @@
 # Ansible-Test
+
 For mere ansible tests and studies on local VMs.
 
-Test git push
-This repository is for Ansible tests to learn and study with Ansible, and Git! :D
+
+## old_files:
+This folder contains just the old stuff I worked on. I start anew with this new commit now.
+
