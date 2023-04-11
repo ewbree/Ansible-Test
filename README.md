@@ -1,6 +1,7 @@
 # Ansible-Test
 
-For mere ansible tests and studies on local VMs.
+For mere ansible tests and studies on local VMs.<br>
+I do not recommend using any of this for yourself. I just use this repository to easily store it.
 
 ## Self documentation
 
